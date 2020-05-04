@@ -1,16 +1,19 @@
 #!/usr/bin/env python
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
+from constants import *
+from os.path import join, dirname
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-hostName = "localhost"
-serverPort = 8080
-
-class MyServer(BaseHTTPRequestHandler):
+class Server(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.path = '/index.html'
+        else:
+            self.path = '/' + self.path + '.html'
+
         try:
-            file_to_open = open(self.path[1:]).read()
+            file_path = './' + VIEWS_DIR + self.path
+            file_to_open = open(file_path).read()
             self.send_response(200)
         except:
             file_to_open = 'File not found'
@@ -19,8 +22,8 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes(file_to_open, 'utf-8'))
 
 if __name__ == "__main__":
-    webServer = HTTPServer((hostName, serverPort), MyServer)
-    print("Server started http://%s:%s" % (hostName, serverPort))
+    webServer = HTTPServer((HOST, PORT), Server)
+    print("Server started http://%s:%s" % (HOST, PORT))
 
     try:
         webServer.serve_forever()
