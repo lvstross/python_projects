@@ -6,4 +6,7 @@
 4. Basic Web Server: Python web server
 5. Make Slideshow Video: MoviePy project
 6. Games:
-  1. Rock, Paper, Scissors
+  a. Rock, Paper, Scissors
+7. Git Tools:
+  a. Git Stash Tools
+  b. Git Branch Tools
