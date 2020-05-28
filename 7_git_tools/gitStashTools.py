@@ -51,7 +51,7 @@ Extras:
 (t) git status
 (q)uit
 
-:""")
+: """)
 
   manualMode(mode)
 

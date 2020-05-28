@@ -166,7 +166,7 @@ Extras:
   elif mode == 'd':
     commonCmdLoop(
       "Choose a branch to delete",
-      "git branch -d"
+      "git branch -D"
     )
   else:
     output("Command not supported.")
