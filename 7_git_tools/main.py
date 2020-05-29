@@ -9,7 +9,9 @@ try:
   with open('./.git/HEAD') as f:
     clear()
 except IOError:
+  clear()
   print("This is not a git repository")
+  sys.exit()
 
 
 # Get initial starting point

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import os, sys
 from utils import showStatus, clear, output, manualMode
 
