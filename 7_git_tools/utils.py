@@ -3,18 +3,16 @@ import os
 def showStatus():
   os.system("git status")
 
+def showBranch():
+  os.system("git branch")
+
 def clear():
-  os.system('clear')
+  os.system("clear")
 
 def output(o):
   print("Output: {}".format(o))
 
 def manualMode(arg):
-  if arg == 'm':
+  if "~" in arg:
     clear()
-    cmd = ""
-    while cmd != "b":
-      output("Manual Mode - (b)ack <-")
-      cmd = input("~ ")
-      os.system(cmd)
-    clear()
+    os.system(arg[1:])

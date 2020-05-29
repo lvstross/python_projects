@@ -3,18 +3,18 @@ import os, sys
 from utils import showStatus, clear, output, manualMode
 
 # Variables
-extraOptions = "(b)-back | (m)-manual mode, (t)-git status"
+extraOptions = "(b)-back | (~)-execute any command, (t)-git status"
 stepOptions = "(b)-back a step | (e)-exit branch mode"
 types = [
-  'build',
-  'ci',
-  'docs',
-  'feat',
-  'fix',
-  'perf',
-  'refactor',
-  'style',
-  'test'
+  "build",
+  "ci",
+  "docs",
+  "feat",
+  "fix",
+  "perf",
+  "refactor",
+  "style",
+  "test"
 ]
 
 # Utils
@@ -30,21 +30,21 @@ def commonCmdLoop(opMsg, systemCmd):
   index = ""
   while index != "b":
     output(opMsg + " or " + extraOptions)
-    branches = os.popen('git branch').read()
+    branches = os.popen("git branch").read()
     splitBranches = branches.split("\n")
     indexedBranches = getIndexedBranches(splitBranches)
     print(indexedBranches)
     index = input("""
 
 Index: """)
-    if index == 't':
+    if index == "t":
       showStatus()
-    elif index == 'm':
+    elif index == "m":
       manualMode(index)
-    elif index == 'b':
-      clear()
-    else:
+    elif isinstance(index, int):
       os.system(systemCmd + " " + splitBranches[int(index)])
+    else:
+      clear()
 
 def createNewBranch():
   branch_type = ""
@@ -62,9 +62,9 @@ def createNewBranch():
       index = input("""
 
 Index: """)
-      if index == 'b':
+      if index == "b":
         step = 0
-      elif index == 'e':
+      elif index == "e":
         step = 0
         branch_name = "exit"
       else:
@@ -77,9 +77,9 @@ Index: """)
       t_id = input("""
 
 Ticket ID: """)
-      if t_id == 'b':
+      if t_id == "b":
         step = 1
-      elif t_id == 'e':
+      elif t_id == "e":
         step = 0
         branch_name = "exit"
       else:
@@ -93,16 +93,16 @@ Ticket ID: """)
       t_name = input("""
 
 Ticket Name: """)
-      if t_name == 'b':
+      if t_name == "b":
         step = 2
-      elif t_name == 'e':
+      elif t_name == "e":
         step = 0
         branch_name = "exit"
       else:
         ticket_name = t_name
         step = step + 1
 
-    if ticket_name != "" and ticket_name != 'b' and ticket_name != 'e':
+    if ticket_name != "" and ticket_name != "b" and ticket_name != "e":
       split_name = ticket_name.split(" ")
       joined_name = "-".join(split_name)
       branch_name = "{}/{}-{}".format(
@@ -114,59 +114,55 @@ Ticket Name: """)
   if branch_name != "" and branch_name != "exit":
     os.system("git checkout -b " + branch_name)
 
-# Check if current directory is a git repo
-try:
-  with open('./.git/HEAD') as f:
-    clear()
-    print("Welcome To Branch Tools!")
-except IOError:
-  print("This is not a git repository")
-
 
 # Start the command loop
-while True:
-  # Process arguments
-  mode = input("""
+def branch_tool():
+  tool_on = True
+  while tool_on:
+    # Process arguments
+    mode = input("""
 Choose a mode:
 
 (c)ommit mode: Commit branch changes
 (ck)eckout mode: Checkout a branch
 (n)ew branch mode: Create a new branch
 (d)elete mode: Delete a branch
-(m)anual mode: Execute commands without leaving the program
 
 Extras:
+Include ~ in front of your command to execute any command
 (t) git status
+(e)xit tool
 (q)uit
 
 :""")
 
-  manualMode(mode)
-
-  if mode == 'q':
-    clear()
-    sys.exit()
-  elif mode == 't':
-    clear()
-    showStatus()
-  elif mode == 'c':
-    print('c')
-    # git commit -m <commitMessage>
-    # get current branch name and auto fill commit message to start
-    # Look into multi-line input values for more complex commit messages
-    # perhaps parse value for double quotes to detect an end to commit message
-    # and each new line is a new input().
-  elif mode == 'ck':
-    commonCmdLoop(
-      "Choose a branch to checkout",
-      "git checkout"
-    )
-  elif mode == 'n':
-    createNewBranch()
-  elif mode == 'd':
-    commonCmdLoop(
-      "Choose a branch to delete",
-      "git branch -D"
-    )
-  else:
-    output("Command not supported.")
+    if mode == "e":
+      clear()
+      tool_on = False
+    elif mode == "q":
+      clear()
+      sys.exit()
+    elif mode == "t":
+      clear()
+      showStatus()
+    elif mode == "c":
+      print("c")
+      # git commit -m <commitMessage>
+      # get current branch name and auto fill commit message to start
+      # Look into multi-line input values for more complex commit messages
+      # perhaps parse value for double quotes to detect an end to commit message
+      # and each new line is a new input().
+    elif mode == "ck":
+      commonCmdLoop(
+        "Choose a branch to checkout",
+        "git checkout"
+      )
+    elif mode == "n":
+      createNewBranch()
+    elif mode == "d":
+      commonCmdLoop(
+        "Choose a branch to delete",
+        "git branch -D"
+      )
+    else:
+      manualMode(mode)
