@@ -38,12 +38,12 @@ def commonCmdLoop(opMsg, systemCmd):
 Index: """)
     if index == "t":
       showStatus()
-    elif index == "m":
-      manualMode(index)
-    elif isinstance(index, int):
-      os.system(systemCmd + " " + splitBranches[int(index)])
     else:
-      clear()
+      if index.isdigit():
+        os.system(systemCmd + " " + splitBranches[int(index)])
+      else:
+        output("Index must be a integer!")
+    manualMode(index)
 
 def createNewBranch():
   branch_type = ""
