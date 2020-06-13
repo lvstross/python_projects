@@ -3,6 +3,7 @@ import sys
 from utils import clear, output, manualMode
 from stash import stash_tool
 from branch import branch_tool
+from commit import commit_tool
 
 # Check if current directory is a git repo
 try:
@@ -19,15 +20,19 @@ while True:
   tool = input("""
 Choose a tool:
 
+(c)ommit tools
 (b)ranch tools
 (s)tash tools
-Include ~ in front of your command to execute any command
 
+Extra:
+Include ~ in front of your command to execute any command
 (q)uit
 
 :""")
-
-  if tool == 'b':
+  if tool == 'c':
+    clear()
+    commit_tool()
+  elif tool == 'b':
     clear()
     branch_tool()
   elif tool == 's':

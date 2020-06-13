@@ -42,7 +42,7 @@ Index: """)
       if index.isdigit():
         os.system(systemCmd + " " + splitBranches[int(index)])
       else:
-        output("Index must be a integer!")
+        output("Index must be an integer!")
     manualMode(index)
 
 def createNewBranch():
@@ -122,7 +122,6 @@ def branch_tool():
     mode = input("""
 Choose a mode:
 
-(c)ommit mode: Commit branch changes
 (ck)eckout mode: Checkout a branch
 (n)ew branch mode: Create a new branch
 (d)elete mode: Delete a branch
@@ -144,13 +143,6 @@ Include ~ in front of your command to execute any command
     elif mode == "t":
       clear()
       showStatus()
-    elif mode == "c":
-      print("c")
-      # git commit -m <commitMessage>
-      # get current branch name and auto fill commit message to start
-      # Look into multi-line input values for more complex commit messages
-      # perhaps parse value for double quotes to detect an end to commit message
-      # and each new line is a new input().
     elif mode == "ck":
       commonCmdLoop(
         "Choose a branch to checkout",
