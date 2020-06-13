@@ -6,6 +6,8 @@ extraOptions = "(b)-back | (~)-execute any command, (t)-git status"
 
 # Utils
 def commonCmdLoop(opMsg, systemCmd, contained, excluded):
+  # @Note: 
+  # Need to account for other status options (M, A, D, R, C, U)
   clear()
   index = ""
   while index != "b":
@@ -41,6 +43,7 @@ def commit_tool():
 Choose a mode:
 
 (a)dd mode: Add files to staging
+(d)iscard mode: Discard unstaged changes
 (r)eset mode: Reset files from staging
 (c)ommit mode: Commit staged changes
 
@@ -65,6 +68,13 @@ Include ~ in front of your command to execute any command
       commonCmdLoop(
         "Choose which files to stage",
         "git add",
+        "M ",
+        "M  "
+      )
+    elif mode == "d":
+      commonCmdLoop(
+        "Choose which files to stage",
+        "git checkout",
         "M ",
         "M  "
       )
@@ -95,11 +105,22 @@ Index: """)
             output("Index must be an integer!")
         manualMode(index)
     elif mode == "c":
-      print("using commit mode")
-      # git commit -m <commitMessage>
-      # get current branch name and auto fill commit message to start
-      # Look into multi-line input values for more complex commit messages
-      # perhaps parse value for double quotes to detect an end to commit message
-      # and each new line is a new input() call in the loop.
+      clear()
+      inputValue = ""
+      msg = ""
+      while inputValue != "b":
+        clear()
+        output("Enter your commit message and end it with '##'")
+        output("To exit this commit, include 'exit' in the message")
+        inputValue = input("""
+
+Message: {}""".format(msg))
+        msg += "{}\n".format(inputValue)
+        if "##" in msg:
+          msg = msg.replace("##", "")
+          os.system("git commit -m " + '"{}"'.format(msg))
+          inputValue = "b"
+        elif "exit" in msg:
+          inputValue = "b"
     else:
       manualMode(mode)
