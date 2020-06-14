@@ -1,5 +1,7 @@
 import os
 
+extraOptions = "(b)-back | (~)-execute any command, (t)-git status"
+
 def showStatus():
   os.system("git status")
 
