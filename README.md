@@ -7,6 +7,3 @@
 5. Make Slideshow Video: MoviePy project
 6. Games:
   a. Rock, Paper, Scissors
-7. Git Tools:
-  a. Git Stash Tools
-  b. Git Branch Tools
